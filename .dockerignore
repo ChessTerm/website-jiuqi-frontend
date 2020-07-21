@@ -1,0 +1,24 @@
+### VCS ###
+.git
+
+### GitHub ###
+.github
+
+### IDE ###
+.idea
+.editorconfig
+
+### Node ###
+logs
+*.log
+npm-debug.log*
+node_modules/
+
+### Yarn ###
+.yarn
+yarn-debug.log*
+yarn-error.log*
+
+### Nuxt.js ###
+.nuxt
+dist
