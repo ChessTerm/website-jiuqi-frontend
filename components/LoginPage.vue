@@ -26,10 +26,7 @@
           <b-form-input type="password" placeholder="请输入您的密码" v-model="form.password"
                         autocomplete="current-password"></b-form-input>
         </b-input-group>
-        <b-form-text>
-          <span v-if="errorMessage"><strong>登录失败了...</strong> 请检查您输入的棋盘码是否正确。</span>
-          如果此棋盘码已设置密码，请输入正确的密码，否则请留空此框。
-        </b-form-text>
+        <b-form-text>此棋盘码可能已设置密码，请输入正确的密码。</b-form-text>
       </b-form-group>
     </transition>
 
@@ -49,6 +46,8 @@
 <script lang="ts">
   import Vue from "vue";
 
+  import User from "~/libs/classes/models/User";
+  import ApiReturnData from "~/libs/classes/ApiReturnData";
   import { userStore } from "~/store/index";
 
   interface data {
@@ -92,14 +91,26 @@
         }).catch((data: ApiReturnData<User|null>) => {
           if (data.message) {
             if (this.usersWithPassword.indexOf(this.form.id) !== -1) {
-              this.errorMessage = data.message;
-            } else {
-              this.usersWithPassword.push(this.form.id);
-              this.saveUsersWithPassword();
               this.needPassword = true;
-            }
+              this.errorMessage = data.message;
+            } else this.addToUsersWithPasswordIfExists();
           }
         }).finally(() => this.loading = false);
+      },
+      addToUsersWithPasswordIfExists() {
+        const id = this.form.id;
+        this.$callApi("user/exists", {
+          params: { id }
+        }).then((data: boolean) => {
+          if (data) {
+            this.usersWithPassword.push(id);
+            this.saveUsersWithPassword();
+            this.needPassword = true;
+          } else {
+            this.needPassword = false;
+            this.errorMessage = "未找到此用户，请检查您输入的棋盘码是否存在。";
+          }
+        });
       },
       loadUsername(value: string) {
         this.errorMessage = "";

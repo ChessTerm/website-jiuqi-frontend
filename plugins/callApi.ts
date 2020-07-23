@@ -1,4 +1,5 @@
 import {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
+import ApiReturnData from "~/libs/classes/ApiReturnData";
 
 declare module "vue/types/vue" {
   interface Vue {
@@ -15,10 +16,7 @@ export default ({ $axios }: any, inject: any) => {
         .then((response: AxiosResponse<ApiReturnData<any>>) => {
           if (response.data.success) {
             resolve(response.data.data);
-          } else {
-            let error = response.data.message || "Unknown error.";
-            throw new ApiFailError(error);
-          }
+          } else reject(response.data);
         }).catch((e: AxiosError<ApiReturnData<any>>) => {
           if (e.response?.data.message) {
             reject(e.response?.data);
@@ -29,5 +27,5 @@ export default ({ $axios }: any, inject: any) => {
           }
         });
     });
-  })
+  });
 }
