@@ -22,7 +22,7 @@
   import Vue from "vue";
   import ApiReturnData from "~/libs/classes/ApiReturnData";
   import Board from "~/libs/classes/models/Board";
-  import {userStore} from "~/store/index";
+  import { userStore } from "~/store/index";
 
   export default Vue.extend({
     data() {
@@ -49,7 +49,7 @@
           this.$callApi(url, {
             params: this.form
           }).then((data: Board) => {
-            this.start(data.id);
+            this.start(data.user.id);
           }).catch((response: ApiReturnData<Board|null>) => {
             this.invalid = true;
             this.invalidFeedback = response.message || "未知错误。";
@@ -59,8 +59,8 @@
           this.invalidFeedback = "请输入正确的棋盘码。";
         }
       },
-      start(boardId: number) {
-        // TODO: Go to ChessTerm GUI
+      start(userId: number) {
+        this.$router.push(`/gui?id=${userId}`);
         this.$bvModal.hide("inputBoardModal");
       },
     },

@@ -1,6 +1,5 @@
 <template>
   <b-container class="mt-3 mb-5 mt-md-5" fluid="md">
-    <github-banner></github-banner>
 
     <b-jumbotron class="pt-sm-4 pb-sm-5">
       <h1 class="display-4">ChessTerm <small class="d-none d-sm-inline text-muted" id="version">for 久棋 ({{ version }})</small></h1>
@@ -50,10 +49,12 @@
         this.loading = true;
         this.$callApi("user").then((userInfo) => {
           userStore.updateInfo(userInfo);
+        }).catch(() => {
+          userStore.updateInfo(null);
         }).finally(() => this.loading = false);
       }
     },
-    mounted() {
+    created() {
       this.updateUserInfo();
     }
   }

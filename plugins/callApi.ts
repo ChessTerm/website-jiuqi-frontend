@@ -1,4 +1,6 @@
-import {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import "@nuxtjs/axios";
+import { Context } from "@nuxt/types";
 import ApiReturnData from "~/libs/classes/ApiReturnData";
 
 declare module "vue/types/vue" {
@@ -7,9 +9,9 @@ declare module "vue/types/vue" {
   }
 }
 
-export default ({ $axios }: any, inject: any) => {
+export default ({ $axios }: Context, inject: any) => {
   inject("callApi", (url: string, options?: AxiosRequestConfig): Promise<any> => {
-    let defaultOptions = { url, method: "GET" };
+    let defaultOptions: AxiosRequestConfig = { url, method: "GET" };
     Object.assign(defaultOptions, options || {});
     return new Promise((resolve, reject) => {
       $axios.request(defaultOptions)

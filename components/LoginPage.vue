@@ -50,16 +50,14 @@
   import ApiReturnData from "~/libs/classes/ApiReturnData";
   import { userStore } from "~/store/index";
 
-  interface data {
-    form: any,
-    loading: boolean,
-    needPassword: boolean,
-    usersWithPassword: Array<string>,
-    errorMessage: string
-  }
-
   export default Vue.extend({
-    data(): data {
+    data(): {
+      form: any,
+      loading: boolean,
+      needPassword: boolean,
+      usersWithPassword: Array<string>,
+      errorMessage: string
+    } {
       return {
         form: {
           id: "",
