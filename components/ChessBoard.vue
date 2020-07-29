@@ -94,12 +94,12 @@
         <b-dropdown-group v-if="isWriteable(contextMenuValue) && (writeableX || writeableO)"
                           :header="'对 ' + contextMenuCoordinatesText + ' 的操作：'">
           <b-dropdown-item-button v-if="writeableX && contextMenuValue === 0" variant="warning"
-                                  @click="setCellValue(contextMenuCoordinates, -1)">
+                                  @click="setCellValue(contextMenuCoordinates, -1, true)">
             <b-icon icon="circle-fill" style="color:#FFDC04;"></b-icon>
             放置黄子
           </b-dropdown-item-button>
           <b-dropdown-item-button v-if="writeableO && contextMenuValue === 0" variant="info"
-                                  @click="setCellValue(contextMenuCoordinates, 1)">
+                                  @click="setCellValue(contextMenuCoordinates, 1, true)">
             <b-icon icon="circle-fill" style="color:#3EC6DB;"></b-icon>
             放置蓝子
           </b-dropdown-item-button>
@@ -109,7 +109,7 @@
             拾起棋子
           </b-dropdown-item-button>
           <b-dropdown-item-button v-if="contextMenuValue !== 0 && isWriteable(contextMenuValue)" variant="danger"
-                                  @click="setCellValue(contextMenuCoordinates, 0)">
+                                  @click="setCellValue(contextMenuCoordinates, 0, true)">
             <b-icon icon="trash"></b-icon>
             删除棋子
           </b-dropdown-item-button>
@@ -218,8 +218,9 @@
       getCellValue(coordinates: Coordinates): Chess {
         return ((this.state || [])[coordinates.row] || [])[coordinates.column];
       },
-      setCellValue(coordinates: Coordinates, value: Chess): void {
+      setCellValue(coordinates: Coordinates, value: Chess, submit?: boolean): void {
         boardStore.updateState({ value, coordinates });
+        if (submit) this.$emit("uploadState");
       },
       putDownHandler(coordinates?: Coordinates): void {
         this.contextMenu = false;
@@ -230,12 +231,10 @@
             if (value == Chess.None) {
               if (boardStore.pickedUpCoordinates)
                 this.setCellValue(boardStore.pickedUpCoordinates, Chess.None);
-              this.setCellValue(coordinates, boardStore.pickedUpChess);
-              this.$emit("uploadState");
+              this.setCellValue(coordinates, boardStore.pickedUpChess, true);
             } else return;
           } else if (boardStore.pickedUpCoordinates) {
-            this.setCellValue(boardStore.pickedUpCoordinates, Chess.None);
-            this.$emit("uploadState");
+            this.setCellValue(boardStore.pickedUpCoordinates, Chess.None, true);
           }
           boardStore.putDown();
         }
