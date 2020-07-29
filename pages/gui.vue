@@ -14,29 +14,6 @@
       <chess-board v-else key="board" style="transition-duration:0.2s;" :writeable="writeable"
                    @uploadState="uploadState" @resetState="resetState" />
     </transition>
-    <!--<div class="text-left d-none" id="info">
-      <hr style="margin: 5rem 0 1rem">
-      <div class="row">
-        <div class="col">
-          <h1 class="font-weight-light">
-            <span data-param="game.title"></span>
-            <small class="text-muted mx-1 text-nowrap" style="font-size:50%;vertical-align:super;">
-              # <span data-param="user.id"></span>
-            </small>
-          </h1>
-          <p data-param="game.description"></p>
-        </div>
-        <div class="col-auto text-nowrap">
-          <h6 class="text-secondary d-none d-sm-inline-block">从这里拿新棋子 &rarr;</h6>
-          <div class="data-new-chess pickable" data-status="x">
-            <img class="data-chess" src="../assets/images/yellow_zu.png">
-          </div>
-          <div class="data-new-chess pickable" data-status="o">
-            <img class="data-chess" src="../assets/images/blue_zu.png">
-          </div>
-        </div>
-      </div>
-    </div>-->
     <!-- TODO: Use BSidebar to display info and chat -->
   </b-container>
 </template>
@@ -78,8 +55,8 @@
       }
     },
     computed: {
-      inputId() {
-        return this.$route.query.id;
+      inputId(): number {
+        return Number(this.$route.query.id) || 0;
       }
     },
     watch: {
