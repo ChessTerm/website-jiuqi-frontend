@@ -6,16 +6,19 @@
         <h3 class="font-weight-light">{{ game.title }}</h3>
         <p class="lead">{{ game.description }}</p>
         <p><strong>棋盘大小：</strong>{{ game.row }}×{{ game.column }}</p>
+        <p v-if="user.id !== board.user.id"><strong>棋盘码：</strong>{{ board.user.id }}</p>
         <p v-if="connected || connected === false" :class="connected ? 'text-success' : 'text-danger'">
           棋盘同步服务{{ connected ? '已' : '未' }}连接
         </p>
-        <hr>
-        <h4 class="mb-3">
-          <b-icon icon="person-circle"></b-icon>
-          {{ user.name || '用户信息' }}
-        </h4>
-        <p><strong>棋盘码：</strong>{{ user.id }}</p>
-        <p v-if="user.admin === true" class="text-primary strong">管理员账号</p>
+        <div v-if="user.id">
+          <hr>
+          <h4 class="mb-3">
+            <b-icon icon="person-circle"></b-icon>
+            {{ user.name || '用户信息' }}
+          </h4>
+          <p><strong>棋盘码：</strong>{{ user.id }}</p>
+          <p v-if="user.admin === true" class="text-primary strong">管理员账号</p>
+        </div>
       </div>
       <p class="mt-5" v-else><b-spinner variant="primary" small /> 棋盘信息加载中...</p>
     </div>
@@ -28,7 +31,7 @@
   import Board from "~/libs/classes/models/Board";
   import Game from "~/libs/classes/models/Game";
   import User from "~/libs/classes/models/User";
-  import { boardStore } from "~/store/index";
+  import { boardStore, userStore } from "~/store/index";
 
   export default Vue.extend({
     props: {
@@ -45,7 +48,7 @@
         return this.board.game || {} as Game;
       },
       user(): User {
-        return this.board.user || {} as User;
+        return userStore.info || {} as User;
       }
     }
   });

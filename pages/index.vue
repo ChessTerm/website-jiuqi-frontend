@@ -22,7 +22,6 @@
 
   import { userStore } from "~/store/index";
   import version from "~/libs/version";
-  import user from "~/store/user";
 
   export default {
     components: {
@@ -47,14 +46,10 @@
     methods: {
       updateUserInfo() {
         this.loading = true;
-        this.$callApi("user").then((userInfo) => {
-          userStore.updateInfo(userInfo);
-        }).catch(() => {
-          userStore.updateInfo(null);
-        }).finally(() => this.loading = false);
+        userStore.getInfo(() => this.loading = false);
       }
     },
-    created() {
+    mounted() {
       this.updateUserInfo();
     }
   }

@@ -2,6 +2,7 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import "@nuxtjs/axios";
 import { Context } from "@nuxt/types";
 import ApiReturnData from "~/libs/classes/ApiReturnData";
+import { NuxtAxiosInstance } from "@nuxtjs/axios";
 
 declare module "vue/types/vue" {
   interface Vue {
@@ -9,25 +10,28 @@ declare module "vue/types/vue" {
   }
 }
 
-export default ({ $axios }: Context, inject: any) => {
-  inject("callApi", (url: string, options?: AxiosRequestConfig): Promise<any> => {
-    let defaultOptions: AxiosRequestConfig = { url, method: "GET" };
-    Object.assign(defaultOptions, options || {});
-    return new Promise((resolve, reject) => {
-      $axios.request(defaultOptions)
-        .then((response: AxiosResponse<ApiReturnData<any>>) => {
-          if (response.data.success) {
-            resolve(response.data.data);
-          } else reject(response.data);
-        }).catch((e: AxiosError<ApiReturnData<any>>) => {
-          if (e.response?.data.message) {
-            reject(e.response?.data);
-          } else {
-            let error = "请求过程中发生未知错误";
-            if (e.message) error += "\n" + e.message;
-            alert(error);
-          }
-        });
+export function callApi($axios: NuxtAxiosInstance, url: string, options?: AxiosRequestConfig): Promise<any> {
+  let defaultOptions: AxiosRequestConfig = { url, method: "GET" };
+  Object.assign(defaultOptions, options || {});
+  return new Promise((resolve, reject) => {
+    $axios.request(defaultOptions).then((response: AxiosResponse<ApiReturnData<any>>) => {
+      if (response.data.success) {
+        resolve(response.data.data);
+      } else reject(response.data);
+    }).catch((e: AxiosError<ApiReturnData<any>>) => {
+      if (e.response?.data.message) {
+        reject(e.response?.data);
+      } else {
+        let error = "请求过程中发生未知错误";
+        if (e.message) error += "\n" + e.message;
+        alert(error);
+      }
     });
+  });
+}
+
+export default ({ $axios }: Context, inject: any) => {
+  inject("callApi", (url: string, options?: AxiosRequestConfig) => {
+    return callApi($axios, url, options);
   });
 }

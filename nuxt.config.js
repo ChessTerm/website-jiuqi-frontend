@@ -37,6 +37,7 @@ export default {
   plugins: [
     "~/plugins/bootstrapIcons",
     "~/plugins/callApi",
+    "~/plugins/axiosAccessor",
   ],
   /*
   ** Auto import components

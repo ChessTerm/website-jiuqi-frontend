@@ -36,7 +36,8 @@
   import Board from "~/libs/classes/models/Board";
   import Role from "~/libs/classes/Role";
   import ApiReturnData from "../libs/classes/ApiReturnData";
-  import { boardStore } from "~/store/index";
+  import { boardStore, userStore } from "~/store/index";
+  import User from "~/libs/classes/models/User";
 
   export default Vue.extend({
     components: {
@@ -65,11 +66,14 @@
       }
     },
     computed: {
+      user(): User {
+        return userStore.info || {} as User;
+      },
       inputId(): number {
         return Number(this.$route.query.id) || 0;
       },
       isSelf(): boolean {
-        return this.inputId ? (this.inputId === this.board?.user?.id) : true;
+        return this.inputId ? (this.inputId === this.user?.id) : true;
       },
       gameName(): string {
         return this.board?.game?.title || "";
@@ -84,6 +88,7 @@
       loadInfo() {
         this.failed = false;
         this.status = "加载棋盘信息...";
+        userStore.getInfo();
         this.$callApi(this.inputId ? "boards/find" : "user/getBoard", {
           params: {
             game: 1,
