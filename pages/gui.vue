@@ -1,9 +1,14 @@
 <template>
   <b-container fluid="lg" class="text-center my-3 mt-md-4">
-    <h1 class="font-weight-light mb-3">ChessTerm GUI</h1>
+    <h1 class="font-weight-light mb-3">
+      ChessTerm
+      <small class="text-secondary" style="font-size:1.5rem;font-weight:lighter;vertical-align:super;">
+        {{ gameName ? ' for ' + gameName : '' }}
+      </small>
+    </h1>
     <transition name="fade" mode="out-in">
       <div id="loading" key="loading" :class="failed ? 'text-danger' : ''"
-           v-if="loading || failed" style="transition-duration:0.2s;">
+           v-if="loading || failed" style="animation-duration:0.5s;">
         <loading class="mb-4" v-if="loading"></loading>
         <h4 v-if="failed">
           <span v-if="started">ChessTerm 出现错误</span>
@@ -11,10 +16,11 @@
         </h4>
         <p>{{ status }}</p>
       </div>
-      <chess-board v-else key="board" style="transition-duration:0.2s;" :writeable="writeable"
-                   @uploadState="uploadState" @resetState="resetState" />
+      <chess-board v-else key="board" style="animation-duration:0.3s;" :writeable="writeable"
+                   :isSelf="isSelf" @uploadState="uploadState" @resetState="resetState" />
     </transition>
-    <!-- TODO: Use BSidebar to display info and chat -->
+    <jiuqi-toolbox v-if="board && board.game && board.game.id === 1 && isSelf" />
+    <chess-info-bar :connected="!!stompClient && !failed" />
   </b-container>
 </template>
 
@@ -25,6 +31,8 @@
 
   import ChessBoard from "~/components/ChessBoard.vue";
   import Loading from "~/components/Loading2.vue";
+  import JiuqiToolbox from "~/components/JiuqiToolbox.vue";
+  import ChessInfoBar from "~/components/ChessInfoBar.vue";
   import Board from "~/libs/classes/models/Board";
   import Role from "~/libs/classes/Role";
   import ApiReturnData from "../libs/classes/ApiReturnData";
@@ -34,6 +42,8 @@
     components: {
       Loading,
       ChessBoard,
+      JiuqiToolbox,
+      ChessInfoBar,
     },
     data(): {
       loading: boolean,
@@ -57,6 +67,12 @@
     computed: {
       inputId(): number {
         return Number(this.$route.query.id) || 0;
+      },
+      isSelf(): boolean {
+        return this.inputId ? (this.inputId === this.board?.user?.id) : true;
+      },
+      gameName(): string {
+        return this.board?.game?.title || "";
       }
     },
     watch: {
@@ -124,7 +140,7 @@
         }
       },
       resetState() {
-        this.$bvModal.msgBoxConfirm("重置后，棋盘会回到初始状态，您确定要重置棋盘吗？", {
+        this.$bvModal.msgBoxConfirm("重置后，棋盘会回到初始状态，且会清空历史记录。您确定要重置棋盘吗？", {
           title: "重置棋盘确认",
           okVariant: "danger",
           okTitle: "确认",

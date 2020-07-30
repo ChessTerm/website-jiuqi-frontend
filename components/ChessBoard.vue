@@ -3,8 +3,8 @@
     <img v-if="pickedUpImage" id="pickedUpFollow" :src="pickedUpImage" alt="拾起的棋子"
          title="点击棋盘四周的空白处可以删除棋子" :style="pickedUpImageStyles">
     <b-row align-h="center" id="toolbar">
-      <b-col cols="auto">
-        <b-button-toolbar v-if="writeable && isLastStep">
+      <b-col cols="auto" v-if="writeable && isLastStep">
+        <b-button-toolbar>
           <b-button-group class="mr-2" size="sm">
             <b-button variant="secondary" disabled v-if="writeableX || writeableO">
               获取棋子
@@ -46,22 +46,29 @@
               <b-icon icon="check2"></b-icon>
               应用
             </b-button>
+            <b-button v-if="hasHistory && !isLastStep" variant="secondary" @click="toHistory(history.length - 1)">
+              <b-icon icon="x"></b-icon>
+              取消
+            </b-button>
             <b-button v-if="!hasHistory" variant="primary"
                       :disabled="historyLoading" @click="loadHistory">
-          <span v-if="historyLoading">
-            <b-spinner variant="white" small></b-spinner>
-            加载中...
-          </span>
+              <span v-if="historyLoading">
+                <b-spinner variant="white" small></b-spinner>
+                加载中...
+              </span>
               <span v-else>
-            <b-icon icon="clock-history"></b-icon>
-            历史记录
-          </span>
+                <b-icon icon="clock-history"></b-icon>
+                历史记录
+              </span>
             </b-button>
           </b-button-group>
           <b-button v-if="writeable && isLastStep" class="ml-2"
                     size="sm" variant="danger" @click="$emit('resetState')">
             <b-icon icon="trash"></b-icon>
             重置棋盘
+          </b-button>
+          <b-button class="ml-2" size="sm" variant="info" v-b-toggle.sidebar-info>
+            <b-icon icon="info-circle"></b-icon>
           </b-button>
         </b-button-toolbar>
       </b-col>
@@ -138,7 +145,8 @@
 
   export default Vue.extend({
     props: {
-      writeable: Boolean
+      writeable: Boolean,
+      isSelf: Boolean,
     },
     components: {
       ChessBoardCell,
@@ -296,11 +304,12 @@
         }
       }
     },
-    mounted() {
-      if (this.$route.query.id) {
-        this.writeableO = false;
-        this.writeableX = false;
+    watch: {
+      isSelf() {
+        this.writeableO = this.writeableX = this.isSelf;
       }
+    },
+    mounted() {
       this.getFitSize();
       window.addEventListener("resize", this.getFitSize);
       window.addEventListener("click", this.windowPutDownHandler);
