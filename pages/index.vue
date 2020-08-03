@@ -7,10 +7,16 @@
       <p class="mb-0">Developed by <a href="https://www.jingbh.top/" target="_blank">JingBh</a>.</p>
     </b-jumbotron>
 
-    <b-overlay id="form-container" :show="loading" spinner-variant="primary" variant="white">
-      <login-page v-if="!userLoggedIn" @update="updateUserInfo"></login-page>
+    <div id="form-container">
+      <div class="text-center" v-if="loading">
+        <h3 class="font-weight-light" style="margin-top:7.5rem;">
+          <b-spinner variant="primary"></b-spinner>
+          正在加载用户信息...
+        </h3>
+      </div>
+      <login-page v-else-if="!userLoggedIn" @update="updateUserInfo"></login-page>
       <profile-page v-else></profile-page>
-    </b-overlay>
+    </div>
 
   </b-container>
 </template>

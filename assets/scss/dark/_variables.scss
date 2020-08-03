@@ -1,0 +1,51 @@
+// Custom dark theme variables
+
+$secondary: $gray-700;
+$light: $gray-500;
+$dark: $gray-800;
+
+$body-bg: $gray-900;
+$body-color: $white;
+
+$link-color: $primary;
+
+$input-bg: $gray-800;
+$input-focus-bg: $input-bg;
+$input-disabled-bg: $gray-700;
+$input-border-color: $gray-600;
+$input-focus-border-color: $input-bg;
+$input-color: $gray-300;
+$input-focus-color: $gray-200;
+
+$input-group-addon-color: $gray-400;
+$input-group-addon-bg: $gray-700;
+
+$custom-file-color: $gray-400;
+$custom-file-border-color: $body-bg;
+
+$dropdown-bg: $gray-900;
+$dropdown-border-color: $gray-700;
+$dropdown-divider-bg: $gray-700;
+
+$dropdown-link-color: $white;
+$dropdown-link-hover-color: $white;
+$dropdown-link-hover-bg: $primary;
+
+$nav-link-padding-x: 1rem;
+$nav-tabs-link-active-bg: $body-bg;
+
+$pagination-color: $body-color;
+$pagination-bg: $body-bg;
+$pagination-border-width: 1;
+$pagination-border-color: lighten($body-bg, 15%);
+
+$pagination-hover-color: $pagination-color;
+$pagination-hover-bg: lighten($body-bg, 10%);
+$pagination-hover-border-color: $pagination-border-color;
+
+$pagination-active-bg: darken($primary, 10%);
+$pagination-active-border-color: $pagination-border-color;
+
+$pagination-disabled-color: darken($body-color, 15%);
+$pagination-disabled-bg: lighten($body-bg, 5%);
+$pagination-disabled-border-color: $pagination-border-color;

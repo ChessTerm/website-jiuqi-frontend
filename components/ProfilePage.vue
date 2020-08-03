@@ -12,6 +12,9 @@
       <b-dropdown-item-button @click="$bvModal.show('inputBoardModal')">
         <b-icon icon="eye"></b-icon> 观看其它棋盘
       </b-dropdown-item-button>
+      <b-dropdown-item-button @click="logout" variant="danger">
+        <b-icon icon="box-arrow-right"></b-icon> 退出登录
+      </b-dropdown-item-button>
     </b-dropdown>
     <!-- Modals -->
     <input-board-modal></input-board-modal>
@@ -31,5 +34,13 @@
         return userStore.info;
       }
     },
+    methods: {
+      logout() {
+        this.$callApi("logout", {
+          method: "POST",
+          maxRedirects: 0
+        }).finally(() => userStore.getInfo());
+      }
+    }
   }
 </script>

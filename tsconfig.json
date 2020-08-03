@@ -25,7 +25,8 @@
     },
     "types": [
       "@types/node",
-      "@nuxt/types"
+      "@nuxt/types",
+      "bootstrap-vue/esm"
     ]
   },
   "exclude": [

@@ -16,7 +16,7 @@
     </b-form-group>
 
     <transition name="fadeDown">
-      <b-form-group v-if="needPassword" style="animation-duration:0.2s;">
+      <b-form-group v-if="needPassword">
         <b-input-group>
           <template v-slot:prepend>
             <b-input-group-text>
@@ -31,7 +31,7 @@
     </transition>
 
     <transition name="fadeDown">
-      <p v-if="errorMessage" class="text-danger" style="animation-duration:0.2s;">错误：{{ errorMessage }}</p>
+      <p v-if="errorMessage" class="text-danger">错误：{{ errorMessage }}</p>
     </transition>
 
     <b-form-group>

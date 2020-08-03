@@ -1595,6 +1595,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nuxtjs/color-mode@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@nuxtjs/color-mode@npm:1.0.2"
+  dependencies:
+    defu: ^2.0.4
+    lodash.template: ^4.5.0
+  checksum: df3ac3c9735d9a2fa51e4260b02fe4d6e2d35ac7dc5a82341fb0e8cd4ce92b5a40a4a3b670ad1b060f12f6058ac982f5f44c5d9bee373e4150e0749ae3e53a78
+  languageName: node
+  linkType: hard
+
 "@nuxtjs/proxy@npm:^2.0.0, @nuxtjs/proxy@npm:^2.0.1":
   version: 2.0.1
   resolution: "@nuxtjs/proxy@npm:2.0.1"
@@ -2913,6 +2923,13 @@ __metadata:
     jquery: 1.9.1 - 3
     popper.js: ^1.16.0
   checksum: 89284a8d1bfcf508588e2eedb652374af5790d2b47d3ca7b192ec67742db99c9652181979a6ab16b91230df1efea1a8ac5a4e6ffd44265a7b5f0583d275227d3
+  languageName: node
+  linkType: hard
+
+"bootswatch@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "bootswatch@npm:4.5.0"
+  checksum: 13efbe7aa948e42b4c517ef6f9e5eb673f5a4a31e096b249a6094d720e673b6cb0cd810b65f8a0ba0aea1055bf8f26c953ae4083dac523f418e66e881bf94019
   languageName: node
   linkType: hard
 
@@ -11376,11 +11393,13 @@ typescript@~3.9:
     "@nuxt/typescript-build": ^2.0.0
     "@nuxt/typescript-runtime": ^0.4.10
     "@nuxtjs/axios": ^5.11.0
+    "@nuxtjs/color-mode": ^1.0.2
     "@nuxtjs/proxy": ^2.0.1
     "@types/sockjs-client": ^1.1.1
     axios: ^0.19.2
     bootstrap: ^4.5.0
     bootstrap-vue: ^2.15.0
+    bootswatch: ^4.5.0
     nuxt: ^2.13.0
     sass: ^1.26.10
     sass-loader: ^9.0.2

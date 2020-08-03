@@ -1,0 +1,8 @@
+.light-mode {
+  @import "variables";
+  @import "libraries";
+}
+
+.dark-mode {
+  @import "dark/app_dark";
+}

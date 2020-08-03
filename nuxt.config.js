@@ -28,14 +28,13 @@ export default {
   ** Global CSS
   */
   css: [
-    'vue2-animate/dist/vue2-animate.min.css'
+    '~/assets/scss/app.scss'
   ],
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    "~/plugins/bootstrapIcons",
     "~/plugins/callApi",
     "~/plugins/axiosAccessor",
   ],
@@ -49,6 +48,7 @@ export default {
   */
   buildModules: [
     '@nuxt/typescript-build',
+    '@nuxtjs/color-mode',
   ],
   /*
   ** Nuxt.js modules
@@ -61,6 +61,15 @@ export default {
     // Doc: https://github.com/nuxt-community/proxy-module
     '@nuxtjs/proxy',
   ],
+  /*
+  ** BootstrapVue module configuration
+  ** See https://bootstrap-vue.org/docs#nuxtjs-module
+  */
+  bootstrapVue: {
+    css: false,
+    bvCSS: false,
+    icons: true
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
@@ -82,6 +91,14 @@ export default {
       target: process.env.API_URL,
       pathRewrite: { "^/api/": "" }
     }
+  },
+  /*
+  ** Color mode module configuration
+  ** See https://github.com/nuxt-community/color-mode-module#configuration
+  */
+  colorMode: {
+    preference: "system",
+    fallback: "light"
   },
   /*
   ** Build configuration

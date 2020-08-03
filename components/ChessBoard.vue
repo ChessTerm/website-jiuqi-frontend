@@ -13,7 +13,7 @@
             <b-button variant="warning" v-if="writeableX" @click="pickUpHandler(-1)">
               <b-icon icon="circle-fill" style="color:#FFDC04;"></b-icon>
             </b-button>
-            <b-button variant="info" v-if="writeableO" @click="pickUpHandler(1)">
+            <b-button variant="primary" v-if="writeableO" @click="pickUpHandler(1)">
               <b-icon icon="circle-fill" style="color:#3EC6DB;"></b-icon>
             </b-button>
           </b-button-group>
@@ -22,7 +22,7 @@
               <strong>控制黄子</strong>
               ({{ writeableX ? '开' : '关' }})
             </b-button>
-            <b-button variant="outline-info" :pressed.sync="writeableO">
+            <b-button variant="outline-primary" :pressed.sync="writeableO">
               <strong>控制蓝子</strong>
               ({{ writeableO ? '开' : '关' }})
             </b-button>
@@ -67,7 +67,7 @@
             <b-icon icon="trash"></b-icon>
             重置棋盘
           </b-button>
-          <b-button class="ml-2" size="sm" variant="info" v-b-toggle.sidebar-info>
+          <b-button class="ml-2" size="sm" variant="success" v-b-toggle.sidebar-info>
             <b-icon icon="info-circle"></b-icon>
           </b-button>
         </b-button-toolbar>
@@ -105,7 +105,7 @@
             <b-icon icon="circle-fill" style="color:#FFDC04;"></b-icon>
             放置黄子
           </b-dropdown-item-button>
-          <b-dropdown-item-button v-if="writeableO && contextMenuValue === 0" variant="info"
+          <b-dropdown-item-button v-if="writeableO && contextMenuValue === 0" variant="primary"
                                   @click="setCellValue(contextMenuCoordinates, 1, true)">
             <b-icon icon="circle-fill" style="color:#3EC6DB;"></b-icon>
             放置蓝子
@@ -372,5 +372,13 @@
     position: fixed;
     transition-duration: 100ms;
     animation-duration: 300ms;
+  }
+
+  .dark-mode {
+    #table {
+      td.data-available {
+        background-color: #303030;  // Bootstrap $gray-800
+      }
+    }
   }
 </style>

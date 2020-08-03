@@ -1,8 +1,8 @@
 <template>
   <div class="text-secondary small" id="bottomInfo">
     <p>ChessTerm for 久棋</p>
-    <p>Developed by JingBh</p>
-    <p>Version {{ version }}</p>
+    <p>Developed by <a href="https://www.jingbh.top/" target="_blank">JingBh</a></p>
+    <p><a href="https://github.com/ChessTerm/website-jiuqi-frontend/releases" target="_blank" v-b-tooltip.hover.right title="点击查看 Changelog">Version {{ version }}</a></p>
   </div>
 </template>
 
@@ -29,6 +29,10 @@
 
     p {
       margin: 0;
+    }
+
+    a {
+      color: var(--secondary);
     }
   }
 </style>

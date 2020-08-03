@@ -2,7 +2,7 @@
   <b-container fluid="lg" class="text-center my-3 mt-md-4">
     <h1 class="font-weight-light mb-3">
       ChessTerm
-      <small class="text-secondary" style="font-size:1.5rem;font-weight:lighter;vertical-align:super;">
+      <small class="text-muted" style="font-size:1.5rem;font-weight:lighter;vertical-align:super;">
         {{ gameName ? ' for ' + gameName : '' }}
       </small>
     </h1>

@@ -4,18 +4,21 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt-ts build",
-    "start": "nuxt-ts start"
+    "start": "nuxt-ts start",
+    "deploy": "heroku container:push web -a chessterm && heroku container:release web -a chessterm"
   },
   "dependencies": {
     "@nuxt/types": "^2.13.3",
     "@nuxt/typescript-build": "^2.0.0",
     "@nuxt/typescript-runtime": "^0.4.10",
     "@nuxtjs/axios": "^5.11.0",
+    "@nuxtjs/color-mode": "^1.0.2",
     "@nuxtjs/proxy": "^2.0.1",
     "@types/sockjs-client": "^1.1.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
+    "bootswatch": "^4.5.0",
     "nuxt": "^2.13.0",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
