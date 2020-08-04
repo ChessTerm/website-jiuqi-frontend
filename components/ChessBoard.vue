@@ -88,7 +88,7 @@
           <chess-board-cell v-for="(cell, col) in rowState" :key="`${row}-${col}`" available
                             :row="row" :col="col" :value="cell" :pickable="isWriteable(cell)"
                             @pickUp="pickUpHandler" @putDown="putDownHandler"
-                            @contextmenu="contextMenuHandler">
+                            @contextmenu="contextMenuHandler" @quickPut="quickPutHandler">
             <!-- 可下子的单元格 -->
           </chess-board-cell>
           <td><!-- 为了使棋盘居中空出最右边一列 --></td>
@@ -246,6 +246,16 @@
           }
           boardStore.putDown();
         }
+      },
+      quickPutHandler(coordinates?: Coordinates): void {
+        this.contextMenu = false;
+        if (!coordinates) { return; }
+        if (this.writeableX && !this.writeableO) {
+          this.setCellValue(coordinates, Chess.X, true)
+        } else if (this.writeableO && !this.writeableX) {
+          this.setCellValue(coordinates, Chess.O, true)
+        } else { return; }
+        boardStore.putDown();
       },
       pickUpHandler(value: Chess, coordinates?: Coordinates): void {
         this.contextMenu = false;
