@@ -2,9 +2,7 @@
   <td :class="classes" :title="hovertext" @mouseenter="mouseEnter" @mouseout="mouseOut"
       @contextmenu.prevent="$emit('contextmenu', coordinates, value, $event)"
       @click.self.stop="$emit('putDown', coordinates)"
-      @dblclick.self.stop="$emit('quickPut', coordinates)"
-      @click.middle.self.stop="$emit('pickUp', value, coordinates)"
-  >
+      @dblclick.self.stop="$emit('quickPut', coordinates)">
     <img v-if="image" class="data-chess" :src="image" alt="棋子" draggable="false" @click.self.stop="pickUp">
     <img v-if="mouseOver && !pickedUp && !image" class="data-chess-pre" :src="pickedUpImage" alt="棋子">
   </td>
