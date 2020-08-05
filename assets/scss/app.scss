@@ -1,8 +1,25 @@
 .light-mode {
   @import "variables";
-  @import "libraries";
+  @import "bootstrap";
 }
 
 .dark-mode {
   @import "dark/app_dark";
+}
+
+// Import Open Sans font from Google Fonts
+@import "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,400&display=swap";
+
+// Import the vue2-animate library.
+$animationDuration: 0.2s;
+@import "~vue2-animate/src/sass/vue2-animate";
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
 }

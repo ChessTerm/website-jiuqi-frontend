@@ -1,19 +1,16 @@
 <template>
-  <div>
-    <github-banner />
+  <div style="margin-bottom:15rem;">
     <nuxt />
-    <bottom-info />
+    <page-footer />
   </div>
 </template>
 
 <script>
-  import GithubBanner from "~/components/GithubBanner";
-  import BottomInfo from "~/components/BottomInfo";
+  import PageFooter from "~/components/PageFooter";
 
   export default {
     components: {
-      GithubBanner,
-      BottomInfo,
+      PageFooter
     }
   }
 </script>

@@ -3,8 +3,7 @@
 
     <b-jumbotron class="pt-sm-4 pb-sm-5">
       <h1 class="display-4">ChessTerm <small class="d-none d-sm-inline text-muted" id="version">for 久棋 ({{ version }})</small></h1>
-      <p class="lead mb-1">An online checkerboard dedicated to 久棋.</p>
-      <p class="mb-0">Developed by <a href="https://www.jingbh.top/" target="_blank">JingBh</a>.</p>
+      <p class="lead mb-0">An online checkerboard dedicated to 久棋.</p>
     </b-jumbotron>
 
     <div id="form-container">
@@ -22,7 +21,6 @@
 </template>
 
 <script>
-  import GithubBanner from "~/components/GithubBanner";
   import LoginPage from "~/components/LoginPage";
   import ProfilePage from "~/components/ProfilePage";
 
@@ -31,7 +29,6 @@
 
   export default {
     components: {
-      GithubBanner,
       LoginPage,
       ProfilePage
     },

@@ -20,7 +20,7 @@
         <b-input-group>
           <template v-slot:prepend>
             <b-input-group-text>
-              <b-icon icon="shield-lock"></b-icon>
+              <b-icon icon="key"></b-icon>
             </b-input-group-text>
           </template>
           <b-form-input type="password" placeholder="请输入您的密码" v-model="form.password"
