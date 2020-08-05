@@ -67,7 +67,8 @@
             <b-icon icon="trash"></b-icon>
             重置棋盘
           </b-button>
-          <b-button class="ml-2" size="sm" variant="success" v-b-toggle.sidebar-info>
+          <b-button class="ml-2" size="sm" variant="success" v-b-toggle.sidebar-info
+                    v-b-tooltip.hover.top title="点击显示棋盘信息">
             <b-icon icon="info-circle"></b-icon>
           </b-button>
         </b-button-toolbar>

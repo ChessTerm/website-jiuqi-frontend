@@ -38,6 +38,7 @@
   import ApiReturnData from "../libs/classes/ApiReturnData";
   import { boardStore, userStore } from "~/store/index";
   import User from "~/libs/classes/models/User";
+  import eventBus from "~/libs/board/eventBus";
 
   export default Vue.extend({
     components: {
@@ -129,6 +130,15 @@
           client.subscribe(`/topic/boards/${this.board.id}/sync`, (message: Message) => {
             boardStore.replaceState(JSON.parse(message.body));
           });
+          client.subscribe(`/topic/next_step/${this.user.id}/progress`, (message: Message) => {
+            eventBus.$emit("nextStepProgress", JSON.parse(message.body));
+          });
+          client.subscribe(`/topic/next_step/${this.user.id}/success`, () => {
+            eventBus.$emit("nextStepSuccess");
+          });
+          client.subscribe(`/topic/next_step/${this.user.id}/fail`, (message: Message) => {
+            eventBus.$emit("nextStepFail", message.body);
+          });
         }, () => {
           this.failed = true;
           this.status = "失去棋盘同步服务的连接。即将尝试重连...";
@@ -136,7 +146,7 @@
           window.setTimeout(() => {
             this.loading = true;
             this.loadInfo();
-          }, 7500);
+          }, 10000);
         });
       },
       uploadState() {

@@ -4,7 +4,7 @@
       欢迎{{ userInfo.name ? '，' + userInfo.name : '' }}
     </h2>
     <p class="lead font-weight-bold">您的棋盘码：{{ userInfo.id }}</p>
-    <b-dropdown class="mt-5" size="lg" block variant="outline-primary"
+    <b-dropdown class="mt-5" size="lg" block variant="primary"
                 text="进入 ChessTerm" split-to="gui" split right>
       <b-dropdown-item to="gui" prefetch>
         <b-icon icon="box"></b-icon> 进入我的棋盘
