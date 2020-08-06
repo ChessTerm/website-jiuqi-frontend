@@ -81,7 +81,7 @@
         <p class="text-success mb-0 mt-n2" v-if="nextStepSuccessful">程序已完成运行！</p>
       </transition>
       <template v-slot:modal-footer="{ cancel }">
-        <p class="small mx-auto text-muted">算法由 ZHC 提供</p>
+        <p class="mr-auto text-muted">算法由 ZHC 提供</p>
         <b-button variant="secondary" @click="cancel">
           <b-icon icon="x"></b-icon> 关闭
         </b-button>
@@ -92,7 +92,7 @@
         </b-button>
         <b-button variant="danger" v-else @click="nextStepStop">
           <span v-if="nextStepLoading"><b-spinner variant="white" small></b-spinner> 加载中...</span>
-          <span v-else><b-icon icon="stopwatch"></b-icon> 结束进程</span>
+          <span v-else><b-icon icon="exclamation-octagon"></b-icon> 结束进程</span>
         </b-button>
       </template>
     </b-modal>

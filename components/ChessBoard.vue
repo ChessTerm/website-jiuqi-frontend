@@ -7,8 +7,7 @@
         <b-button-toolbar>
           <b-button-group class="mr-2" size="sm">
             <b-button variant="secondary" disabled v-if="writeableX || writeableO">
-              获取棋子
-              <b-icon icon="arrow-right"></b-icon>
+              获取棋子 <b-icon icon="arrow-right"></b-icon>
             </b-button>
             <b-button variant="warning" v-if="writeableX" @click="pickUpHandler(-1)">
               <b-icon icon="circle-fill" style="color:#FFDC04;"></b-icon>
@@ -19,12 +18,10 @@
           </b-button-group>
           <b-button-group size="sm">
             <b-button variant="outline-warning" :pressed.sync="writeableX">
-              <strong>控制黄子</strong>
-              ({{ writeableX ? '开' : '关' }})
+              <strong>控制黄子</strong> ({{ writeableX ? '开' : '关' }})
             </b-button>
             <b-button variant="outline-primary" :pressed.sync="writeableO">
-              <strong>控制蓝子</strong>
-              ({{ writeableO ? '开' : '关' }})
+              <strong>控制蓝子</strong> ({{ writeableO ? '开' : '关' }})
             </b-button>
           </b-button-group>
         </b-button-toolbar>
@@ -34,38 +31,31 @@
           <b-button-group size="sm">
             <b-button v-if="hasHistory && historyIndex !== 0" variant="success"
                       @click="toHistory(historyIndex - 1)">
-              <b-icon icon="arrow-counterclockwise"></b-icon>
-              上一步
+              <b-icon icon="arrow-counterclockwise"></b-icon> 上一步
             </b-button>
             <b-button v-if="hasHistory && !isLastStep" variant="success"
                       @click="toHistory(historyIndex + 1)">
-              <b-icon icon="arrow-clockwise"></b-icon>
-              下一步
+              <b-icon icon="arrow-clockwise"></b-icon> 下一步
             </b-button>
             <b-button v-if="hasHistory && !isLastStep && writeable" variant="primary" @click="applyHistory">
-              <b-icon icon="check2"></b-icon>
-              应用
+              <b-icon icon="check2"></b-icon> 应用
             </b-button>
             <b-button v-if="hasHistory && !isLastStep" variant="secondary" @click="toHistory(history.length - 1)">
-              <b-icon icon="x"></b-icon>
-              取消
+              <b-icon icon="x"></b-icon> 取消
             </b-button>
             <b-button v-if="!hasHistory" variant="primary"
                       :disabled="historyLoading" @click="loadHistory">
               <span v-if="historyLoading">
-                <b-spinner variant="white" small></b-spinner>
-                加载中...
+                <b-spinner variant="white" small></b-spinner> 加载中...
               </span>
               <span v-else>
-                <b-icon icon="clock-history"></b-icon>
-                历史记录
+                <b-icon icon="clock-history"></b-icon> 历史记录
               </span>
             </b-button>
           </b-button-group>
           <b-button v-if="writeable && isLastStep" class="ml-2"
                     size="sm" variant="danger" @click="$emit('resetState')">
-            <b-icon icon="trash"></b-icon>
-            重置棋盘
+            <b-icon icon="trash"></b-icon> 重置棋盘
           </b-button>
           <b-button class="ml-2" size="sm" variant="success" v-b-toggle.sidebar-info
                     v-b-tooltip.hover.top title="点击显示棋盘信息">
@@ -134,7 +124,7 @@
 
   import ChessBoardCell from "~/components/ChessBoardCell.vue";
   import ChessBoardRectpaper from "~/components/ChessBoardRectpaper.vue";
-  import { boardStore } from "~/store/index";
+  import { boardStore, userStore } from "~/store/index";
   import Board from "~/libs/classes/models/Board";
   import Game from "~/libs/classes/models/Game";
   import User from "~/libs/classes/models/User";
@@ -178,7 +168,7 @@
         return this.board.game || {} as Game;
       },
       user(): User {
-        return this.board.user || {} as User;
+        return userStore.info || {} as User;
       },
       state(): State {
         if (this.hasHistory && !this.isLastStep) {
@@ -211,10 +201,10 @@
         if (this.history) {
           return this.history.length - 1 == this.historyIndex;
         } else return true;
-      }
+      },
     },
     methods: {
-      getFitSize(): void {
+      getFitSize() {
         this.fitSize = getSize(Math.max(this.game.row + 1, this.game.column + 2));
       },
       isWriteable(value: Chess): boolean {
@@ -227,11 +217,11 @@
       getCellValue(coordinates: Coordinates): Chess {
         return ((this.state || [])[coordinates.row] || [])[coordinates.column];
       },
-      setCellValue(coordinates: Coordinates, value: Chess, submit?: boolean): void {
+      setCellValue(coordinates: Coordinates, value: Chess, submit?: boolean) {
         boardStore.updateState({ value, coordinates });
         if (submit) this.$emit("uploadState");
       },
-      putDownHandler(coordinates?: Coordinates): void {
+      putDownHandler(coordinates?: Coordinates) {
         this.contextMenu = false;
         if (boardStore.pickedUp) {
           if (boardStore.pickedUpOn + 50 > new Date().getTime()) return;
@@ -248,34 +238,35 @@
           boardStore.putDown();
         }
       },
-      quickPutHandler(coordinates?: Coordinates): void {
+      quickPutHandler(coordinates?: Coordinates) {
         this.contextMenu = false;
-        if (!coordinates) { return; }
-        if (this.writeableX && !this.writeableO) {
-          this.setCellValue(coordinates, Chess.X, true)
-        } else if (this.writeableO && !this.writeableX) {
-          this.setCellValue(coordinates, Chess.O, true)
-        } else { return; }
-        boardStore.putDown();
+        if (coordinates) {
+          if (this.writeableX && !this.writeableO) {
+            this.setCellValue(coordinates, Chess.X, true);
+          } else if (this.writeableO && !this.writeableX) {
+            this.setCellValue(coordinates, Chess.O, true);
+          } else return;
+          boardStore.putDown();
+        }
       },
-      pickUpHandler(value: Chess, coordinates?: Coordinates): void {
+      pickUpHandler(value: Chess, coordinates?: Coordinates) {
         this.contextMenu = false;
         if (boardStore.pickedUp) {
           if (boardStore.pickedUpCoordinates && boardStore.pickedUpCoordinates.equals(coordinates))
             boardStore.putDown();
         } else boardStore.pickUp({ value, coordinates });
       },
-      windowPutDownHandler(): void {
+      windowPutDownHandler() {
         this.contextMenu = false;
         this.putDownHandler();
       },
-      mouseMoveHandler(event: MouseEvent): void {
+      mouseMoveHandler(event: MouseEvent) {
         if (!this.contextMenu) {
           this.clientX = event.clientX;
           this.clientY = event.clientY;
         }
       },
-      contextMenuHandler(coordinates: Coordinates, value: Chess, event: MouseEvent): void {
+      contextMenuHandler(coordinates: Coordinates, value: Chess, event: MouseEvent) {
         if (!boardStore.pickedUp) {
           this.clientX = event.clientX;
           this.clientY = event.clientY;
@@ -286,7 +277,7 @@
           this.contextMenuValue = value;
         }
       },
-      loadHistory(): void {
+      loadHistory() {
         this.historyLoading = true;
         this.$callApi(`boards/${this.board.id}/history`).then((data: Array<State>) => {
           this.history = data;
@@ -299,7 +290,7 @@
           alert("获取历史记录失败。");
         }).finally(() => this.historyLoading = false);
       },
-      toHistory(index: number): void {
+      toHistory(index: number) {
         if (index + 1 == this.history.length) {
           this.history = new Array<State>();
           this.historyIndex = -1;
@@ -308,7 +299,7 @@
           this.historyIndex = index;
         }
       },
-      applyHistory(): void {
+      applyHistory() {
         if (this.historyState) {
           boardStore.replaceState(this.historyState);
           this.$emit("uploadState");
