@@ -1,48 +1,41 @@
 <template>
-  <b-container class="mt-3 mb-5 mt-md-5" fluid="md">
-
-    <b-jumbotron class="pt-sm-4 pb-sm-5">
-      <h1 class="display-4">ChessTerm <small class="d-none d-sm-inline text-muted" id="version">for 久棋 ({{ version }})</small></h1>
-      <p class="lead mb-0">An online checkerboard dedicated to 久棋.</p>
-    </b-jumbotron>
-
-    <div id="form-container">
-      <div class="text-center" v-if="loading">
-        <h3 class="font-weight-light" style="margin-top:7.5rem;">
-          <b-spinner variant="primary"></b-spinner>
-          正在加载用户信息...
-        </h3>
-      </div>
-      <login-page v-else-if="!userLoggedIn" @update="updateUserInfo"></login-page>
-      <profile-page v-else></profile-page>
+  <form-container>
+    <div class="text-center" v-if="loading">
+      <h3 class="font-weight-light" style="margin-top:7.5rem;">
+        <b-spinner variant="primary"></b-spinner>
+        正在加载用户信息...
+      </h3>
     </div>
-
-  </b-container>
+    <login-page v-else-if="!userLoggedIn" @update="updateUserInfo"></login-page>
+    <profile-page v-else></profile-page>
+  </form-container>
 </template>
 
-<script>
-  import LoginPage from "~/components/LoginPage";
-  import ProfilePage from "~/components/ProfilePage";
+<script lang="ts">
+  import Vue from "vue";
 
+  import LoginPage from "~/components/LoginPage.vue";
+  import ProfilePage from "~/components/ProfilePage.vue";
+  import FormContainer from "~/components/FormContainer.vue";
   import { userStore } from "~/store/index";
-  import version from "~/libs/version";
+  import User from "~/libs/classes/models/User";
 
-  export default {
+  export default Vue.extend({
     components: {
+      FormContainer,
       LoginPage,
       ProfilePage
     },
     data() {
       return {
-        loading: true,
-        version: version
+        loading: true
       }
     },
     computed: {
-      userInfo() {
-        return userStore.info;
+      userInfo(): User {
+        return userStore.info || {} as User;
       },
-      userLoggedIn() {
+      userLoggedIn(): boolean {
         return !!this.userInfo?.id;
       }
     },
@@ -55,16 +48,5 @@
     mounted() {
       this.updateUserInfo();
     }
-  }
+  });
 </script>
-
-<style scoped>
-  #version {
-    font-size: 1.5rem;
-  }
-
-  #form-container {
-    max-width: 25rem;
-    margin: 3rem auto;
-  }
-</style>
