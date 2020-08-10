@@ -95,6 +95,7 @@
           });
         }
       }).catch(() => this.fail("请求失败，请重试"));
-    }
+    },
+    transition: "fade"
   });
 </script>

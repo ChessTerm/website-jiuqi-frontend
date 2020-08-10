@@ -63,7 +63,7 @@
             </b-col>
           </b-row>
         </div>
-        <div v-else>
+        <div class="mb-2" v-else>
           <p class="lead text-success">
             <b-icon class="mr-2" icon="circle-fill" animation="throb" font-scale="1.2"></b-icon>
             程序正在运行中...
@@ -75,10 +75,10 @@
         </div>
       </transition>
       <transition name="fadeUp">
-        <p class="text-danger mb-0 mt-n2" v-if="nextStepError && !nextStepSuccessful">错误：{{ nextStepError }}</p>
+        <p class="text-danger mb-0" v-if="nextStepError && !nextStepSuccessful">错误：{{ nextStepError }}</p>
       </transition>
       <transition name="fadeUp">
-        <p class="text-success mb-0 mt-n2" v-if="nextStepSuccessful">程序已完成运行！</p>
+        <p class="text-success mb-0" v-if="nextStepSuccessful">程序已完成运行！</p>
       </transition>
       <template v-slot:modal-footer="{ cancel }">
         <p class="mr-auto text-muted">算法由 ZHC 提供</p>

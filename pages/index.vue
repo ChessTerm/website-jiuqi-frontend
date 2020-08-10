@@ -47,6 +47,7 @@
     },
     mounted() {
       this.updateUserInfo();
-    }
+    },
+    transition: "fade"
   });
 </script>
