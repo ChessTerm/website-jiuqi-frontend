@@ -31,6 +31,14 @@ export default {
     '~/assets/scss/app.scss'
   ],
   /*
+  ** Progress Bar
+  */
+  loading: {
+    color: "#27a2fc",
+    failedColor: "#e8286b",
+    height: "3px"
+  },
+  /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */

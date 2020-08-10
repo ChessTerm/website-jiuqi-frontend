@@ -1,15 +1,17 @@
 <template>
-  <float-box icon="tools" title="久棋工具箱" width="16rem">
-    <b-list-group class="mt-3 bg-transparent">
-      <b-list-group-item button v-b-modal:jtp-stateParser-modal>
-        State Parser
-        <b-icon icon="question-circle-fill" id="jtp-stateParser-help"></b-icon>
-      </b-list-group-item>
-      <b-list-group-item button v-b-modal:jtp-nextStep-modal>
-        Next Step
-        <b-icon icon="question-circle-fill" id="jtb-nextStep-help"></b-icon>
-      </b-list-group-item>
-    </b-list-group>
+  <div>
+    <float-box icon="tools" title="久棋工具箱" width="16rem">
+      <b-list-group class="mt-3 bg-transparent">
+        <b-list-group-item button v-b-modal:jtp-stateParser-modal>
+          State Parser
+          <b-icon icon="question-circle-fill" id="jtp-stateParser-help"></b-icon>
+        </b-list-group-item>
+        <b-list-group-item button v-b-modal:jtp-nextStep-modal>
+          Next Step
+          <b-icon icon="question-circle-fill" id="jtb-nextStep-help"></b-icon>
+        </b-list-group-item>
+      </b-list-group>
+    </float-box>
     <b-popover target="jtp-stateParser-help" triggers="hover" placement="right">
       <template v-slot:title>久棋工具箱：<strong>State Parser</strong></template>
       <p>在使用我们的一些程序时，可能会遇到由 <code>X</code>、<code>O</code> 和 <code>-</code> 组成的 <code>State</code> 序列。</p>
@@ -82,6 +84,9 @@
       </transition>
       <template v-slot:modal-footer="{ cancel }">
         <p class="mr-auto text-muted">算法由 ZHC 提供</p>
+        <b-button variant="info" v-b-toggle:jtp-nextStep-sidebar>
+          <b-icon icon="square-half"></b-icon> SideBar
+        </b-button>
         <b-button variant="secondary" @click="cancel">
           <b-icon icon="x"></b-icon> 关闭
         </b-button>
@@ -96,7 +101,64 @@
         </b-button>
       </template>
     </b-modal>
-  </float-box>
+    <b-sidebar id="jtp-nextStep-sidebar" title="Next Step" right shadow="lg" @shown="nextStepCheck">
+      <div class="px-3 py-2 text-left">
+        <transition name="fadeDown" leave-active-class="fadeOutUp" mode="out-in">
+          <div v-if="!nextStepStarted">
+            <p>要让我们的程序下一步棋，您必须提供几个参数：</p>
+            <b-row>
+              <b-col cols="12" sm="6">
+                <b-form-group label="阵营" label-for="jtp-nextStep-input-player">
+                  <b-form-select id="jtp-nextStep-input-player" :options="nextStepPlayers"
+                                 v-model="nextStepPlayer" required :state="nextStepPlayerError"></b-form-select>
+                  <b-form-text>程序将为您选择的一方下一步棋。</b-form-text>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12" sm="6">
+                <b-form-group label="阶段" label-for="jtp-nextStep-input-stage">
+                  <b-form-select id="jtp-nextStep-input-stage" :options="nextStepStages"
+                                 v-model="nextStepStage" required :state="nextStepStageError"></b-form-select>
+                  <b-form-text>请选择当前的游戏阶段。</b-form-text>
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </div>
+          <div class="mb-2" v-else>
+            <p class="lead text-success">
+              <b-icon class="mr-2" icon="circle-fill" animation="throb" font-scale="1.2"></b-icon>
+              程序正在运行中...
+            </p>
+            <label>运行进度：{{ nextStepProgressObj.now || 0 }} / {{ nextStepProgressObj.all || 1000 }}</label>
+            <b-progress :max="nextStepProgressObj.all || 1000" height="1.5rem" :animated="nextStepStarted">
+              <b-progress-bar :value="nextStepProgressObj.now || 0" :label="nextStepProgressLabel" />
+            </b-progress>
+          </div>
+        </transition>
+        <transition name="fadeUp">
+          <p class="text-danger mb-0" v-if="nextStepError && !nextStepSuccessful">错误：{{ nextStepError }}</p>
+        </transition>
+        <transition name="fadeUp">
+          <p class="text-success mb-0" v-if="nextStepSuccessful">程序已完成运行！</p>
+        </transition>
+      </div>
+      <template v-slot:footer="{ hide }">
+        <div class="border-top text-right p-2">
+          <b-button variant="secondary" @click="hide">
+            <b-icon icon="x"></b-icon> 关闭
+          </b-button>
+          <b-button variant="primary" :disabled="nextStepLoading"
+                    v-if="!nextStepStarted" @click="nextStepStart">
+            <span v-if="nextStepLoading"><b-spinner variant="white" small></b-spinner> 加载中...</span>
+            <span v-else><b-icon icon="check2"></b-icon> 提交</span>
+          </b-button>
+          <b-button variant="danger" v-else @click="nextStepStop">
+            <span v-if="nextStepLoading"><b-spinner variant="white" small></b-spinner> 加载中...</span>
+            <span v-else><b-icon icon="exclamation-octagon"></b-icon> 结束进程</span>
+          </b-button>
+        </div>
+      </template>
+    </b-sidebar>
+  </div>
 </template>
 
 <script lang="ts">
