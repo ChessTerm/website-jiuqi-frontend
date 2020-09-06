@@ -13,7 +13,6 @@
     "@nuxtjs/color-mode": "^1.0.2",
     "@nuxtjs/proxy": "^2.0.1",
     "@types/sockjs-client": "^1.1.1",
-    "axios": "^0.19.2",
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.16.0",
     "bootswatch": "^4.5.0",

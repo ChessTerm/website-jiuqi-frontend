@@ -1,13 +1,24 @@
 <template>
-  <td :class="classes" :title="hovertext" @mouseenter="mouseEnter"
-      @mouseout="mouseOut"
-      @contextmenu.prevent="$emit('contextmenu', coordinates, value, $event)"
-      @click.self.stop="$emit('putDown', coordinates)"
-      @dblclick.self.stop="$emit('quickPut', coordinates)">
-    <img v-if="image" class="data-chess" :src="image"
-         alt="棋子" draggable="false" @click.self.stop="pickUp">
-    <img v-if="mouseOver && !pickedUp && !image" class="data-chess-pre" :src="pickedUpImage"
-         alt="棋子">
+  <td
+    :class="classes"
+    :title="hovertext"
+    @mouseenter="mouseEnter"
+    @mouseout="mouseOut"
+    @contextmenu.prevent="$emit('contextmenu', coordinates, value, $event)"
+    @click.self.stop="$emit('putDown', coordinates)"
+    @dblclick.self.stop="$emit('quickPut', coordinates)">
+    <img
+      v-if="image"
+      class="data-chess"
+      :src="image"
+      alt="棋子"
+      draggable="false"
+      @click.self.stop="pickUp">
+    <img
+      v-if="mouseOver && !pickedUp && !image"
+      class="data-chess-pre"
+      :src="pickedUpImage"
+      alt="棋子">
   </td>
 </template>
 
@@ -62,21 +73,21 @@ export default Vue.extend({
         this.pickedUp ? "picked-up" : "",
       ]
     },
-    rowText(): string {
-      return String.fromCharCode(65 + this.row)
-    },
     colText(): string {
       return String(this.col + 1)
+    },
+    rowText(): string {
+      return String.fromCharCode(65 + this.row)
     },
     hovertext(): string {
       if (boardStore.pickedUp) {
         if (this.value === Chess.None) {
-          return `点击在此放下拾起的棋子\n(${this.colText}${this.rowText}, ${boardStore.pickedUpChess})`
+          return `点击在此放下拾起的棋子\n(${this.rowText}${this.colText}, ${boardStore.pickedUpChess})`
         } else if (this.pickedUp) {
           return "点击放回棋子"
         } else return ""
       } else if (this.pickable && this.value) {
-        return `点击拾起此棋子\n(${this.colText}${this.rowText}, ${this.value})`
+        return `点击拾起此棋子\n(${this.rowText}${this.colText}, ${this.value})`
       } else return ""
     },
     coordinates(): Coordinates {
@@ -90,7 +101,11 @@ export default Vue.extend({
     clickable(): boolean {
       if (boardStore.pickedUp) {
         return this.available && (this.value === Chess.None || this.pickedUp)
-      } else return (this.pickable && (this.value === Chess.X || this.value === Chess.O))
+      } else {
+        return (
+          this.pickable && (this.value === Chess.X || this.value === Chess.O)
+        )
+      }
     },
   },
   methods: {
@@ -108,24 +123,26 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-  .data-chess, .data-chess-pre {
-    position: relative;
-    z-index: 100;
-    max-width: 100%;
-    max-height: 100%;
-    user-select: none;
-  }
+.data-chess,
+.data-chess-pre {
+  position: relative;
+  z-index: 100;
+  max-width: 100%;
+  max-height: 100%;
+  user-select: none;
+}
 
-  .clickable {
-    cursor: pointer;
-  }
+.clickable {
+  cursor: pointer;
+}
 
-  .picked-up .data-chess, .data-chess-pre {
-    opacity: 0.5;
-  }
+.picked-up .data-chess,
+.data-chess-pre {
+  opacity: 0.5;
+}
 
-  .data-chess-pre {
-    pointer-events: none;
-    user-select: none;
-  }
+.data-chess-pre {
+  pointer-events: none;
+  user-select: none;
+}
 </style>

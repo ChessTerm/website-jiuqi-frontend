@@ -296,7 +296,7 @@ export default Vue.extend({
         this.contextMenu = true
         this.contextMenuCoordinates = coordinates
         this.contextMenuCoordinatesText =
-            String.fromCharCode(65 + coordinates.column) + String(coordinates.row + 1)
+            String.fromCharCode(65 + coordinates.row) + String(coordinates.column + 1)
         this.contextMenuValue = value
       }
     },

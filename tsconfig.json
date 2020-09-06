@@ -28,7 +28,8 @@
       "@nuxt/types",
       "vue/types",
       "bootstrap-vue/esm",
-      "@nuxtjs/axios/types"
+      "@nuxtjs/axios/types",
+      "@nuxtjs/axios/node_modules/axios"
     ]
   },
   "exclude": [
