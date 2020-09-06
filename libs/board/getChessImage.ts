@@ -1,16 +1,16 @@
-import Chess from "~/libs/classes/Chess";
+import Chess from "~/libs/classes/Chess"
 
 export default function(chess: Chess) {
   let color
   switch (chess) {
     case Chess.X:
-      color = "yellow";
-      break;
+      color = "yellow"
+      break
     case Chess.O:
-      color = "blue";
-      break;
+      color = "blue"
+      break
     default:
-      return "";
+      return ""
   }
-  return `/images/${color}_zu.png`;
+  return `/images/${color}_zu.png`
 }

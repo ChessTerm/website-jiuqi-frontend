@@ -1,5 +1,5 @@
-import { Plugin } from '@nuxt/types'
-import { NuxtAxiosInstance } from '@nuxtjs/axios'
+import { Plugin } from "@nuxt/types"
+import { NuxtAxiosInstance } from "@nuxtjs/axios"
 
 export let $axios: NuxtAxiosInstance
 

@@ -1,4 +1,4 @@
-import State from "~/libs/classes/models/State";
+import { State } from "~/libs/classes/models/State"
 
 export default interface Game {
   id: number,

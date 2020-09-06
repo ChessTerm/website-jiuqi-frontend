@@ -16,11 +16,11 @@ export default class extends VuexModule {
   @Action
   getInfo(callback?: () => void) {
     callApi($axios, "user").then((userInfo) => {
-      this.context.commit("updateInfo", userInfo);
+      this.context.commit("updateInfo", userInfo)
     }).catch(() => {
-      this.context.commit("updateInfo", null);
+      this.context.commit("updateInfo", null)
     }).finally(() => {
-      if (callback) callback();
-    });
+      if (callback) callback()
+    })
   }
 }

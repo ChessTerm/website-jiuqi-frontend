@@ -1,75 +1,76 @@
 <template>
   <div class="float-box" :class="{ 'float-box-show': show }" :style="{ width: boxWidth, height: boxHeight }"
        @click.stop="clickHandler" @mouseover="mouseOverHandler" @mouseout="mouseOutHanlder">
-    <b-icon :icon="icon"></b-icon>
-    <span class="float-box-title" ref="title">{{ title }}</span>
-    <div class="float-box-content" ref="content" :style="{ width, 'max-width': maxWidth }" @click.stop>
-      <slot></slot>
+    <b-icon :icon="icon" />
+    <span ref="title" class="float-box-title">{{ title }}</span>
+    <div ref="content" class="float-box-content" :style="{ width, 'max-width': maxWidth }"
+         @click.stop>
+      <slot />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
-  export default Vue.extend({
-    name: "FloatBox",
-    props: {
-      title: {
-        type: String,
-        required: true
-      },
-      icon: {
-        type: String,
-        default: "justify"
-      },
-      width: {
-        type: String,
-        default: "22.5rem"
-      },
-      maxWidth: {
-        type: String,
-        default: "80vw"
-      }
+import Vue from "vue"
+export default Vue.extend({
+  name: "FloatBox",
+  props: {
+    title: {
+      type: String,
+      required: true,
     },
-    data() {
-      return {
-        boxWidth: "",
-        boxHeight: "",
-        show: false,
-      }
+    icon: {
+      type: String,
+      default: "justify",
     },
-    methods: {
-      mouseOverHandler(): void {
-        if (!this.show) {
-          const title = this.$refs.title as HTMLSpanElement;
-          const titleWidth = title.getBoundingClientRect().width + 5
-          this.boxWidth = `calc(3.5rem + ${titleWidth}px)`;
-        }
-      },
-      mouseOutHanlder(): void {
-        if (!this.show) this.boxWidth = "";
-      },
-      clickHandler(): void {
-        if (this.show) {
-          this.show = false;
-          this.mouseOverHandler();
-          this.boxHeight = "";
-        } else {
-          this.show = true;
-          Vue.nextTick(() => {
-            const title = this.$refs.title as HTMLSpanElement;
-            const content = this.$refs.content as HTMLDivElement;
-            const { width: titleWidth, height: titleHeight } = title.getBoundingClientRect()
-            const { width: contentWidth, height: contentHeight } = content.getBoundingClientRect()
-            const width = Math.max(titleWidth, contentWidth);
-            const height = titleHeight + contentHeight;
-            this.boxWidth = `calc(2rem + ${width}px)`;
-            this.boxHeight = `calc(2.5rem + ${height}px)`;
-          });
-        }
-      }
+    width: {
+      type: String,
+      default: "22.5rem",
+    },
+    maxWidth: {
+      type: String,
+      default: "80vw",
+    },
+  },
+  data() {
+    return {
+      boxWidth: "",
+      boxHeight: "",
+      show: false,
     }
-  });
+  },
+  methods: {
+    mouseOverHandler(): void {
+      if (!this.show) {
+        const title = this.$refs.title as HTMLSpanElement
+        const titleWidth = title.getBoundingClientRect().width + 5
+        this.boxWidth = `calc(3.5rem + ${titleWidth}px)`
+      }
+    },
+    mouseOutHanlder(): void {
+      if (!this.show) this.boxWidth = ""
+    },
+    clickHandler(): void {
+      if (this.show) {
+        this.show = false
+        this.mouseOverHandler()
+        this.boxHeight = ""
+      } else {
+        this.show = true
+        Vue.nextTick(() => {
+          const title = this.$refs.title as HTMLSpanElement
+          const content = this.$refs.content as HTMLDivElement
+          const { width: titleWidth, height: titleHeight } = title.getBoundingClientRect()
+          const { width: contentWidth, height: contentHeight } = content.getBoundingClientRect()
+          const width = Math.max(titleWidth, contentWidth)
+          const height = titleHeight + contentHeight
+          this.boxWidth = `calc(2rem + ${width}px)`
+          this.boxHeight = `calc(2.5rem + ${height}px)`
+        })
+      }
+    },
+  },
+})
 </script>
 
 <style lang="scss" scoped>
