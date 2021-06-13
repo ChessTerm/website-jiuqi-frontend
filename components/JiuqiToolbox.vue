@@ -248,7 +248,7 @@ export default Vue.extend({
         headers: { "Content-Type": "text/plain" },
       }).then(() => {
         this.stateParserFinished = true
-      }).catch((e) => {
+      }).catch((e: Error) => {
         console.error(e)
         this.stateParserFailed = true
         this.stateParserFeedback = `State 解析失败，请检查输入是否正确。`
@@ -284,7 +284,7 @@ export default Vue.extend({
         },
       }).then(() => {
         this.nextStepCheck()
-      }).catch((e) => {
+      }).catch((e: Error) => {
         console.error(e)
         if (e.message) this.nextStepError = e.message
         this.nextStepLoading = false
