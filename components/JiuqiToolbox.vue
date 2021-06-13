@@ -57,7 +57,8 @@
             <b-col cols="12" sm="6">
               <b-form-group label="阵营" label-for="jtp-nextStep-input-player">
                 <b-form-select id="jtp-nextStep-input-player" v-model="nextStepPlayer"
-                               :options="nextStepPlayers" required :state="nextStepPlayerError" />
+                               :options="nextStepPlayers" required :state="nextStepPlayerError"
+                               disabled />
                 <b-form-text>程序将为您选择的一方下一步棋。</b-form-text>
               </b-form-group>
             </b-col>
@@ -123,7 +124,8 @@
               <b-col cols="12" sm="6">
                 <b-form-group label="阵营" label-for="jtp-nextStep-input-player">
                   <b-form-select id="jtp-nextStep-input-player" v-model="nextStepPlayer"
-                                 :options="nextStepPlayers" required :state="nextStepPlayerError" />
+                                 :options="nextStepPlayers" required :state="nextStepPlayerError"
+                                 disabled />
                   <b-form-text>程序将为您选择的一方下一步棋。</b-form-text>
                 </b-form-group>
               </b-col>
@@ -211,7 +213,7 @@ export default Vue.extend({
         { value: "LAYOUT", text: "布子 (Layout)" },
         { value: "PLAY", text: "行棋 (Play)" },
       ],
-      nextStepPlayer: "",
+      nextStepPlayer: "-1",
       nextStepStage: "",
       nextStepStarted: false,
       nextStepProgressObj: {} as Progress,
